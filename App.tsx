@@ -15,6 +15,7 @@ import {
   Text,
   useColorScheme,
   TextInput,
+  Alert,
   View,
   Button,
   AppState,
@@ -79,7 +80,10 @@ function App() {
   const handleSave = async () => {
     try {
       await AsyncStorage.setItem(STORAGE_KEY, value);
-      console.log('Value saved successfully');
+      Alert.alert('Save DeviceId', 'succefuly save deviceid', [
+       
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
     } catch (e) {
       console.error('Error saving value:', e);
     }
