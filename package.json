@@ -14,7 +14,8 @@
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-android-notification-listener": "^5.0.1",
-    "react-native-background-actions": "^3.0.1"
+    "react-native-background-actions": "^3.0.1",
+    "react-native-device-info": "^10.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
