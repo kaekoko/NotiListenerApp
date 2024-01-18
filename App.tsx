@@ -14,23 +14,27 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
+  TextInput,
   View,
   Button,
-  AppState
+  AppState,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { getUniqueId, getManufacturer } from 'react-native-device-info';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import RNAndroidNotificationListener from 'react-native-android-notification-listener';
 
 
 function App() {
+   
+
   const [hasPermission, setHasPermission] = useState(false)
+  const deviveid=getUniqueId();
+
+
+ 
 
 
   const handleOnPressPermissionButton = async () => {
@@ -68,7 +72,34 @@ function App() {
     }
 }, [])
 
- 
+ //local storage
+ const STORAGE_KEY = '@MyApp:key';
+ const [value, setValue] = useState('');
+
+  const handleSave = async () => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, value);
+      console.log('Value saved successfully');
+    } catch (e) {
+      console.error('Error saving value:', e);
+    }
+  };
+
+  const handleLoad = async () => {
+    try {
+      const value = await AsyncStorage.getItem(STORAGE_KEY);
+      if (value !== null) {
+        setValue(value);
+        
+      }
+    } catch (e) {
+      console.error('Error loading value:', e);
+    }
+  };
+
+  useEffect(() => {
+    handleLoad();
+  }, []);
 
   return (
       <SafeAreaView >
@@ -84,9 +115,22 @@ function App() {
                   disabled={hasPermission}
               />
           </View>
+          <View style={{ padding: 20 }}>
+      <Text>Enter a value:</Text>
+      <TextInput
+        style={{ borderWidth: 1, borderColor: 'gray', padding: 10, marginVertical: 10 }}
+        value={value}
+        onChangeText={setValue}
+      />
+      <Button title="Save" onPress={handleSave} />
+    </View>
          
       </SafeAreaView>
   )
 }
 
 export default App;
+function async(arg0: string, deviveid: Promise<string>) {
+    throw new Error('Function not implemented.');
+}
+

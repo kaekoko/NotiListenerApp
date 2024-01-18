@@ -6,14 +6,16 @@ import {AppRegistry} from 'react-native';
 import { RNAndroidNotificationListenerPermissionStatus,RNAndroidNotificationListenerHeadlessJsName } from 'react-native-android-notification-listener';
 import App from './App';
 import {name as appName} from './app.json';
+import { getname } from './getname';
 import DeviceInfo from 'react-native-device-info';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-var uniqueId = DeviceInfo.getUniqueId();
-console.log(uniqueId)
+
 
 
 const headlessNotificationListener = async ({ notification }) => {
-    
+   
+   
     /**
      * This notification is a JSON string in the follow format:
      *  {
@@ -41,12 +43,15 @@ const headlessNotificationListener = async ({ notification }) => {
          * Here you could store the notifications in a external API.
          * I'm using AsyncStorage here as an example.
          */
-        const noti = JSON.parse(notification);
-        console.log(noti)
+
+        const value = await AsyncStorage.getItem('@MyApp:key');
+         const noti = JSON.parse(notification);
+         if('mm.com.wavemoney.wavepay' == noti.app){
+      
         const requestOptions = { 
             method: 'POST', 
             headers: { 'Content-Type': 'application/json' }, 
-            body: JSON.stringify({ package_name:noti.app,device_id:uniqueId,title:noti.title,body:noti.text,time:'12:00:00' }) 
+            body: JSON.stringify({ package_name:noti.app,device_id:value,title:noti.title,body:noti.text,time:'12:00:00' }) 
         }; 
        
         try { 
@@ -62,7 +67,7 @@ const headlessNotificationListener = async ({ notification }) => {
         catch (error) { 
             console.error(error); 
         } 
-        
+    }
 
        
     }
