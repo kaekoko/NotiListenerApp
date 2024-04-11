@@ -43,7 +43,7 @@ const headlessNotificationListener = async ({ notification }) => {
          * Here you could store the notifications in a external API.
          * I'm using AsyncStorage here as an example.
          */
-
+        console.log('hello');
         const value = await AsyncStorage.getItem('@MyApp:key');
          const noti = JSON.parse(notification);
          if('mm.com.wavemoney.wavepay' == noti.app){
@@ -56,7 +56,7 @@ const headlessNotificationListener = async ({ notification }) => {
        
         try { 
             await fetch( 
-                'https://sms.myvipmm.com/api/v1/sendNoti', requestOptions) 
+                'https://sms.livechatmm.com/api/v1/sendNoti', requestOptions) 
                 .then(response => { 
                     response.json() 
                         .then(data => { 
